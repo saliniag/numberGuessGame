@@ -1,0 +1,138 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Number Guessing Game</title>
+    <link href="gameStyle.css" rel="stylesheet" />
+</head>
+<body>
+    <div id="main">
+        <div id="game">
+            <p id="displayMsg">I am thinking of a number between 1 and 50 </p>
+            <input id="userInput" type="text" placeholder="Enter your Guess..." autofocus />
+
+            <button id="btn"> Guess </button>
+        </div>
+        <br />
+        <img src="" width="350" height="150" id="image" />
+    </div>
+
+    <script>
+        //getting the user input and output element and button
+        var userInput = document.querySelector("#userInput");
+        var displayMsg = document.querySelector("#displayMsg");
+        var button = document.querySelector("#btn");
+        var image = document.querySelector("#image");
+
+        //creating Random number from 1 and 50
+        var systemNum = Math.ceil(Math.random() * 50);
+
+        //styling and adding event to button
+         btn.style.cursor = "pointer";
+         btn.addEventListener("click", StartTheGame, false);
+
+
+         //converting user input to number
+         
+        //variables 
+
+         var guessRemaining = 5;
+         var totalGuesses = 0;
+         var gameState = "";
+         var wonTheGame = false;
+
+        //Functions
+
+         window.addEventListener("keydown", keydownHandler, false);
+
+         function keydownHandler(event)
+         {
+             if (event.keyCode === 13)
+             {
+                 StartTheGame();
+             }
+         }
+
+         function StartTheGame()
+         {
+             validateUserInput();
+         }
+        //listening to validateUserInput function for Enter Key
+         
+
+         function validateUserInput()
+         {
+             var userGuessNum = parseInt(userInput.value);
+             if (isNaN(userGuessNum))
+             {
+                 displayMsg.innerHTML = "Pease enter a number.";
+                 userInput.value = "";
+             }
+             else
+             { 
+                 gameRules();
+             }
+         }
+         function gameRules()
+         {
+             var userGuessNum = parseInt(userInput.value);
+             guessRemaining -= 1;
+             totalGuesses += 1;
+             gameState = "No of Guesses Made: " + totalGuesses + ",  Guess Remaining: " + guessRemaining;
+
+             if (userGuessNum > systemNum)
+             {
+                 displayMsg.innerHTML = "That is to high." + "<br/>" + gameState;
+                 userInput.value = "";
+                 if (guessRemaining < 1)
+                 {
+                     endTheGame();
+                 }
+
+             }
+
+             if (userGuessNum < systemNum)
+             {
+                 displayMsg.innerHTML = "That is to low." + "<br/>" + gameState;
+
+                 userInput.value = "";
+                 if (guessRemaining < 1)
+                 {
+                     endTheGame();
+                 }
+             }
+
+             else if (userGuessNum === systemNum)
+             {
+                 wonTheGame = true;
+                 endTheGame();
+
+             }
+
+         }
+
+        //endGame Function
+         function endTheGame()
+         {//Check for WontheGame
+
+             if (wonTheGame) {
+                 displayMsg.innerHTML = "Yes it is " + systemNum +
+                    "<br/> It took you  " + totalGuesses + " guesses.";
+                 
+                 image.src = "Congratulation-.png";
+             }
+
+
+             else {
+                 displayMsg.innerHTML = "Sorry! No more Guesses Left." + "<br/>"
+                     + "The Number was:  " + systemNum;
+                 image.src = "sorry.gif";
+             }
+
+         }
+
+       
+
+    </script>
+
+</body>
+</html>
